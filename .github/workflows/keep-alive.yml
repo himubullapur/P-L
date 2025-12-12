@@ -1,0 +1,18 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Database
+        env:
+          SUPABASE_URL: https://wzuvqgagavjltqfypsaj.supabase.co
+          SUPABASE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6dXZxZ2FnYXZqbHRxZnlwc2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU1Mzk1MjIsImV4cCI6MjA4MTExNTUyMn0.FDnp8J1hEUhOg_vOgsRQv5tbfLISZYVGJfea4qs0b8Y
+        run: |
+          echo "Pinging..."
+          curl -s -o /dev/null -w "%{http_code}" -X GET "$SUPABASE_URL/rest/v1/transactions?select=id&limit=1" -H "apikey: $SUPABASE_KEY" -H "Authorization: Bearer $SUPABASE_KEY"
